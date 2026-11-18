@@ -77,6 +77,27 @@ MEDIA_EXT_RE = re.compile(
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
 
+# Серверы подписок (в т.ч. dorog*.ru/exec?url=…) роутят ответ по User-Agent:
+# браузерам и python-requests отдают HTML-страницу «Это ссылка для VPN-клиента»,
+# а сырой base64/plain конфиг — только VPN-приложениям. Поэтому ссылку подписки
+# качаем перебором «приложных» UA (okhttp — HTTP-стек Android-приложений).
+SUB_UAS = (
+    "okhttp/4.12.0",           # Happ / v2rayNG и др. Android-клиенты
+    "sing-box/1.9.0",
+    "v2rayNG/1.9.16",
+    "v2rayTun/2.1.0",
+    "Streisand/1.6.2",
+    "Shadowrocket/2.2.40",
+    "NekoBox/2.7.6",
+    "HiddifyNext/2.0.5",
+)
+
+# Страница-заглушка сервера подписки (отличаем её от произвольного HTML).
+# Бейдж в ней сообщает статус: "Подписка активна" (класс status-ok) или
+# истёк (класс status-expired).
+LANDING_RE = re.compile(r"Подписка активна|status-ok|status-expired|VPN-клиента", re.I)
+LANDING_ALIVE_RE = re.compile(r"Подписка активна|status-ok", re.I)
+
 MAX_SUB_BYTES = 2_000_000        # ограничение размера ответа подписки
 MAX_SEEN = 300                   # сколько «увиденных» ссылок помнить
 MAX_HISTORY = 15                 # сколько смен ссылки показывать в истории
@@ -182,13 +203,13 @@ def env_int(name: str, default: int) -> int:
 
 # ---------------------------------------------------------------- сеть
 
-def http_get(url: str, *, timeout=25, retries=3):
+def http_get(url: str, *, timeout=25, retries=3, ua=None):
     last_err = None
     for attempt in range(retries):
         try:
             r = requests.get(
                 url,
-                headers={"User-Agent": UA, "Accept": "*/*",
+                headers={"User-Agent": ua or UA, "Accept": "*/*",
                          "Accept-Language": "en,ru;q=0.8"},
                 timeout=timeout,
                 stream=True,
@@ -348,47 +369,102 @@ def count_configs(text: str):
     return len(alive), len(total)
 
 
-def inspect_subscription(url: str):
-    """Скачивает ссылку подписки и проверяет, живая ли она."""
-    status, content = http_get(url, timeout=30)
-    if status != 200:
-        return {"kind": "none", "servers": None, "http": status,
-                "content": None, "valid": False,
-                "note": "Ссылка не отвечает (HTTP %s) — похоже, она уже недействительна" % status}
+def _classify_response(status: int, content: str):
+    """Классифицирует один ответ подписки.
 
+    Возвращает dict с полями kind/servers/http/content/valid/note или
+    строку-маркер "LANDING", если сервер отдал страницу-заглушку
+    «Это ссылка для VPN-клиента».
+    """
     alive, total = count_configs(content)
-    if alive == 0:
+    if alive > 0:
+        if CONFIG_RE.search(content):
+            return {"kind": "plain", "servers": alive, "http": status,
+                    "content": content, "valid": True, "note": None}
         decoded = try_decode_b64(content)
         if decoded:
-            alive_d, total_d = count_configs(decoded)
-            if alive_d > 0:
-                return {"kind": "base64", "servers": alive_d, "http": status,
-                        "content": content, "valid": True, "note": None}
-            if total_d > 0:
-                return {"kind": "base64", "servers": 0, "http": status,
-                        "content": None, "valid": False,
-                        "note": "Подписка отдала заглушку «Пользователь не найден» — ссылка уже недействительна"}
-        if total > 0:
-            return {"kind": "plain", "servers": 0, "http": status,
-                    "content": None, "valid": False,
-                    "note": "Подписка отдала заглушку «Пользователь не найден» — ссылка уже недействительна"}
-        if content.lstrip().startswith("<"):
-            return {"kind": "html", "servers": None, "http": status,
-                    "content": None, "valid": False,
-                    "note": "Ссылка отдаёт HTML-страницу, а не файл подписки"}
-        return {"kind": "unknown", "servers": None, "http": status,
-                "content": None, "valid": False,
-                "note": "Ответ ссылки не похож на файл подписки"}
+            return {"kind": "base64", "servers": alive, "http": status,
+                    "content": content, "valid": True, "note": None}
+        return {"kind": "unknown", "servers": alive, "http": status,
+                "content": None, "valid": False, "note": None}
 
-    if CONFIG_RE.search(content):
-        return {"kind": "plain", "servers": alive, "http": status,
-                "content": content, "valid": True, "note": None}
+    # живых конфигов нет
     decoded = try_decode_b64(content)
     if decoded:
-        return {"kind": "base64", "servers": alive, "http": status,
-                "content": content, "valid": True, "note": None}
-    return {"kind": "unknown", "servers": alive, "http": status,
-            "content": None, "valid": False, "note": None}
+        alive_d, total_d = count_configs(decoded)
+        if alive_d > 0:
+            return {"kind": "base64", "servers": alive_d, "http": status,
+                    "content": content, "valid": True, "note": None}
+        if total_d > 0:
+            return {"kind": "base64", "servers": 0, "http": status,
+                    "content": None, "valid": False,
+                    "note": "Подписка отдала заглушку «Пользователь не найден» — ссылка уже недействительна"}
+    if total > 0:
+        return {"kind": "plain", "servers": 0, "http": status,
+                "content": None, "valid": False,
+                "note": "Подписка отдала заглушку «Пользователь не найден» — ссылка уже недействительна"}
+    if content.lstrip().startswith("<"):
+        if LANDING_RE.search(content):
+            return "LANDING"
+        return {"kind": "html", "servers": None, "http": status,
+                "content": None, "valid": False,
+                "note": "Ссылка отдаёт HTML-страницу, а не файл подписки"}
+    return {"kind": "unknown", "servers": None, "http": status,
+            "content": None, "valid": False,
+            "note": "Ответ ссылки не похож на файл подписки"}
+
+
+def inspect_subscription(url: str):
+    """Скачивает ссылку подписки (перебирая UA VPN-клиентов) и проверяет живость.
+
+    Сервер отдаёт сырой конфиг только «приложным» User-Agent'ам; браузерам —
+    страницу-заглушку. Если конфиг получить не удалось, но заглушка говорит
+    «Подписка активна» (status-ok) — ссылка считается живой (valid=False,
+    потому что содержимое для sub.txt недоступно, но note честно это объясняет).
+    """
+    landing_alive = False
+    landing_dead = False
+    statuses = []
+    for ua in SUB_UAS:
+        status, content = http_get(url, timeout=20, retries=1, ua=ua)
+        statuses.append(status)
+        if status != 200:
+            continue
+        res = _classify_response(status, content)
+        if res == "LANDING":
+            if LANDING_ALIVE_RE.search(content):
+                landing_alive = True
+            if "status-expired" in content:
+                landing_dead = True
+            continue
+        res["ua"] = ua
+        return res
+
+    # ни один UA не дал конфиг
+    if landing_alive:
+        return {"kind": "landing", "servers": None, "http": 200,
+                "content": None, "valid": False,
+                "note": ("Сервер подтверждает «Подписка активна», но сам конфиг отдаёт "
+                         "только VPN-приложениям (проверил %d клиентских User-Agent). "
+                         "Ссылка рабочая — вставь её в приложение напрямую; sub.txt "
+                         "оставлен прежним и обновится, когда удастся скачать конфиг."
+                         ) % len(SUB_UAS)}
+    if landing_dead:
+        return {"kind": "landing", "servers": None, "http": 200,
+                "content": None, "valid": False,
+                "note": "Страница подписки сообщает, что подписка неактивна (истекла) — ссылка уже недействительна"}
+    non_ok = [s for s in statuses if s and s != 200]
+    if statuses and all(s == 0 for s in statuses):
+        return {"kind": "none", "servers": None, "http": 0,
+                "content": None, "valid": False,
+                "note": "Ссылка не отвечает (сеть недоступна)"}
+    if non_ok:
+        return {"kind": "none", "servers": None, "http": non_ok[0],
+                "content": None, "valid": False,
+                "note": "Ссылка не отвечает (HTTP %s) — похоже, она уже недействительна" % non_ok[0]}
+    return {"kind": "none", "servers": None, "http": 0,
+            "content": None, "valid": False,
+            "note": "Ответ ссылки не похож на файл подписки"}
 
 
 # ---------------------------------------------------------------- состояние
