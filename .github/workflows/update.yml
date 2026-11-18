@@ -23,15 +23,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
+    # Важно: workflow сознательно НЕ использует actions/uses (actions/checkout и т.п.).
+    # GitHub периодически блокирует сторонние экшены, и тогда ран падает с
+    # "Repository access blocked" ещё до запуска. Чистые run-шаги от этого не зависят.
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Clone repository (вместо actions/checkout)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
+      # python3 предустановлен на ubuntu-runner'е, ставим только requests
       - name: Install deps
         run: pip install --quiet requests
 
@@ -42,12 +46,10 @@ jobs:
           MAX_PAGES: ${{ vars.MAX_PAGES }}
           INCLUDE_PATTERN: ${{ vars.INCLUDE_PATTERN }}
           EXCLUDE_PATTERN: ${{ vars.EXCLUDE_PATTERN }}
-        run: python scripts/fetch_latest.py
+        run: python3 scripts/fetch_latest.py
 
       - name: Commit and push if changed
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           if git diff --cached --quiet; then
             echo "Изменений нет — коммит не нужен"
@@ -57,6 +59,16 @@ jobs:
           fi
 
       # GitHub отключает расписания через 60 дней неактивности репозитория.
-      # Это действие раз в ~50 дней делает пустой коммит и не даёт расписанию умереть.
+      # Аналог keepalive-workflow без внешнего экшена: раз в ~50 дней пустой коммит.
       - name: Keepalive
-        uses: gautamkrishnar/keepalive-workflow@v2
+        run: |
+          last=$(git log -1 --format=%ct)
+          now=$(date +%s)
+          age=$(( (now - last) / 86400 ))
+          if [ "$age" -ge 50 ]; then
+            git commit --allow-empty -m "chore: keepalive — защита расписания от автоотключения"
+            git push
+            echo "Пустой keepalive-коммит сделан (репозиторий молчал ${age} дней)"
+          else
+            echo "Последний коммит ${age} дн. назад — keepalive не нужен"
+          fi
