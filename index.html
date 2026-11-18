@@ -5,24 +5,83 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Актуальная ссылка на VPN-подписку</title>
 <style>
-body{margin:0;background:#0f1420;color:#e8ecf6;font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-main{max-width:760px;margin:0 auto;padding:40px 16px}
-.card{background:#171e2e;border:1px solid #26304a;border-radius:14px;padding:20px}
-h1{font-size:1.3rem}
-code{background:#0b101b;border:1px solid #26304a;border-radius:8px;padding:2px 8px}
+:root{--bg:#0f1420;--card:#171e2e;--line:#26304a;--text:#e8ecf6;--muted:#8b96ad;--acc:#4f8cff;--ok:#2fbf71;--warn:#ffb64f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:780px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:1.35rem;margin:.2rem 0 1rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+.linkbox{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+.link{flex:1 1 320px;min-width:0;word-break:break-all;background:#0b101b;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:.95rem}
+button{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:12px 18px;font-size:1rem;cursor:pointer}
+button:active{transform:scale(.98)}
+.muted{color:var(--muted);font-size:.88rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid div{background:#0b101b;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.9rem}
+.grid b{display:block;font-size:1.02rem;color:var(--text)}
+.badge{display:inline-block;border-radius:999px;padding:3px 12px;font-size:.82rem;border:1px solid var(--warn);color:var(--warn)}
+.okbadge{display:inline-block;border-radius:999px;padding:3px 12px;font-size:.82rem;border:1px solid var(--ok);color:var(--ok)}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+td,th{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+td.l{word-break:break-all;max-width:340px}
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--ok);color:#04140b;padding:10px 18px;border-radius:10px;opacity:0;transition:.25s;pointer-events:none;font-weight:600}
+#toast.show{opacity:1}
+a{color:var(--acc)}
+.small{font-size:.82rem}
 </style>
 </head>
 <body>
 <main>
 <h1>Актуальная ссылка на VPN-подписку</h1>
+<p class="muted">Канал: <a href="https://t.me/s/Happ_VPN_official">t.me/Happ_VPN_official</a> · проверяется GitHub Actions каждый час</p>
+
 <div class="card">
-<p>Здесь появится свежая ссылка из Telegram-канала после первого запуска обновления.</p>
-<p>Запусти один раз вручную: закладка <b>Actions</b> → <b>Update VPN subscription</b> →
-кнопка <b>Run workflow</b>. Через минуту эта страница автоматически заменится:
-на ней будут ссылка с кнопкой «Скопировать», число серверов в подписке и история смен ссылок.</p>
-<p>Если ты ещё не вписал канал — сделай это:
-<code>Settings → Secrets and variables → Actions → Variables → TG_CHANNEL</code>.</p>
+<p class="okbadge">Ссылка проверена: подписка отвечает, конфигов внутри: 78</p>
+<div class="linkbox">
+<div class="link" id="lnk">https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTAyNDkzMQBoaGP1H3Qq</div>
+<button onclick="copyLink()">Скопировать</button>
+</div>
+<p class="muted small">Скопируй и вставь в Incy / v2box / v2raytun / Happ как подписку (Subscription URL).</p>
+</div>
+
+<div class="grid">
+<div>Сообщение<b><a href="https://t.me/Happ_VPN_official/4481">#4481</a> · 18.11.2026 22:03 (UTC+4:00)</b></div>
+<div>Серверов в подписке<b>78</b></div>
+<div>Ссылка актуальна с<b>18.11.2026 22:14 (UTC+4:00)</b></div>
+<div>Проверено<b>18.11.2026 22:14 (UTC+4:00) · 0 мин назад</b></div>
+</div>
+
+<div class="card">
+<b>Файл sub.txt (для клиента, вставить один раз)</b>
+<div class="linkbox" style="margin-top:8px">
+<div class="link small" id="suburl">https://raw.githubusercontent.com/nearjoi/vpn-link-guard/main/sub.txt</div>
+<button onclick="copySub()">Скопировать</button>
+</div>
+<p class="muted small">Содержимое sub.txt обновляется автоматически и всегда повторяет свежую подписку автора.</p>
+</div>
+
+
+
+<div class="card">
+<b>История смен ссылок</b>
+<p class='muted small'>Пока ссылка не менялась.</p>
+</div>
+
+<div class="card muted small">
+<b>Как это работает.</b> Каждый час GitHub Actions открывает публичную страницу
+канала t.me/s/Happ_VPN_official, находит в самом свежем посте секцию с подпиской
+(Incy | v2box | v2raytun), забирает ссылку оттуда, скачивает её и проверяет на
+живость. Ничего не запускается на твоём компьютере или телефоне.
+Если нужно проверить прямо сейчас: Actions → Update VPN subscription → Run workflow.
 </div>
 </main>
+<div id="toast">Скопировано</div>
+<script>
+const LINK = document.getElementById('lnk').textContent.trim();
+const SUBURL = document.getElementById('suburl').textContent.trim();
+function toast(){const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
+async function copyLink(){try{await navigator.clipboard.writeText(LINK);}catch(e){const ta=document.createElement('textarea');ta.value=LINK;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}toast();}
+async function copySub(){try{await navigator.clipboard.writeText(SUBURL);}catch(e){const ta=document.createElement('textarea');ta.value=SUBURL;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}toast();}
+</script>
 </body>
 </html>
