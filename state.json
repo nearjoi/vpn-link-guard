@@ -1,20 +1,28 @@
 {
   "channel": "Happ_VPN_official",
   "current": {
-    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTAyNDkzMQBoaGP1H3Qq",
-    "message_id": 4481,
-    "msg_date": "2026-11-18T18:03:29+00:00",
-    "became_current_utc": "2026-11-18T18:14:55Z",
-    "kind": "base64",
-    "servers": 78,
+    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTAzMzI0OQTsZWPCAhgW/auto",
+    "message_id": 4483,
+    "msg_date": "2026-11-18T20:23:20+00:00",
+    "became_current_utc": "2026-11-19T00:48:58Z",
+    "kind": "unknown",
+    "servers": null,
     "http_status": 200,
-    "note": null,
+    "note": "Ответ ссылки не похож на файл подписки",
     "extra_links": [
-      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTAyNDkzMQBoaGP1H3Qq"
+      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTAzMzI0OQTsZWPCAhgW/auto"
     ],
-    "checked_utc": "2026-11-18T18:14:55Z"
+    "checked_utc": "2026-11-19T00:48:58Z"
   },
-  "history": [],
+  "history": [
+    {
+      "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTAyNDkzMQBoaGP1H3Qq",
+      "message_id": 4481,
+      "msg_date": "2026-11-18T18:03:29+00:00",
+      "since_utc": "2026-11-18T18:14:55Z",
+      "servers": 78
+    }
+  ],
   "seen": {
     "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTAyNDkzMQBoaGP1H3Qq": {
       "message_id": 4481,
@@ -55,7 +63,11 @@
     "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FNUFPYXFGLDE3OTM5ODQ4MDI6E2v119uj3/auto": {
       "message_id": 4425,
       "first_seen_utc": "2026-11-18T18:14:55Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTAzMzI0OQTsZWPCAhgW/auto": {
+      "message_id": 4483,
+      "first_seen_utc": "2026-11-19T00:48:58Z"
     }
   },
-  "last_run_utc": "2026-11-18T18:14:54Z"
+  "last_run_utc": "2026-11-19T00:48:57Z"
 }
