@@ -2,8 +2,9 @@ name: Update VPN subscription
 
 on:
   schedule:
-    # каждый час в начале часа по UTC
-    - cron: '0 * * * *'
+    # 3 раза в час на «непиковых» минутах (cron ровно в :00 GitHub часто
+    # пропускает под нагрузкой; сдвиг на случайную минуту надёжнее).
+    - cron: '7,29,51 * * * *'
   workflow_dispatch:
     inputs:
       channel:

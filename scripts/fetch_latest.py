@@ -32,7 +32,7 @@ import re
 import sys
 import time
 from datetime import datetime, timezone
-from urllib.parse import urlparse
+from urllib.parse import urlparse, quote as url_quote
 
 import requests
 
@@ -361,6 +361,132 @@ def try_decode_b64(text: str):
     return None
 
 
+# ------------------------------------------------- v2ray JSON -> URI-список
+
+def _enc_params(**kv) -> str:
+    return "&".join(
+        "%s=%s" % (k, url_quote(str(v), safe=""))
+        for k, v in kv.items() if v not in (None, "", [])
+    )
+
+
+def v2ray_json_to_uris(text: str):
+    """Разворачивает v2rayN-JSON-конфиг в список vless://…/vmess://…/trojan://… URI.
+
+    Часть ссылок автора (оканчивающихся на /auto) отдаёт не base64-список URI,
+    а JSON вида [{"remarks":…, "outbounds":[{protocol:"vless", settings:{…},
+    streamSettings:{…}}]}, …]. Клиенты воспринимают такой файл как ОДИН ручной
+    конфиг, а не как подписку, поэтому конвертируем серверы в стандартные URI.
+    Возвращает список URI (пустой, если контент не JSON-конфиг).
+    """
+    try:
+        data = json.loads(text)
+    except Exception:
+        return []
+    if isinstance(data, dict):
+        data = [data]
+    if not isinstance(data, list):
+        return []
+
+    uris, seen = [], set()
+
+    def add(uri):
+        if uri and uri not in seen:
+            seen.add(uri)
+            uris.append(uri)
+
+    for node in data:
+        if not isinstance(node, dict):
+            continue
+        remarks = node.get("remarks") or node.get("name") or ""
+        frag = "#" + url_quote(remarks, safe="") if remarks else ""
+        for o in node.get("outbounds") or []:
+            if not isinstance(o, dict):
+                continue
+            proto = (o.get("protocol") or "").lower()
+            if proto not in ("vless", "vmess", "trojan"):
+                continue
+            st = o.get("streamSettings") or {}
+            sec = (st.get("security") or "none").lower()
+            net = (st.get("network") or "tcp").lower()
+            tls_s = st.get("tlsSettings") or {}
+            real_s = st.get("realitySettings") or {}
+            sni = tls_s.get("serverName") or real_s.get("serverName") or ""
+            fp = tls_s.get("fingerprint") or real_s.get("fingerprint") or ""
+            alpn = ",".join(tls_s.get("alpn") or []) or ""
+            ws_s = st.get("wsSettings") or {}
+            xh_s = st.get("xhttpSettings") or {}
+            grpc_s = st.get("grpcSettings") or {}
+            tcp_type = ((st.get("tcpSettings") or {}).get("header") or {}).get("type") or ""
+
+            def common():
+                p = {"security": sec if sec != "reality" else "reality",
+                     "type": net}
+                if sec in ("tls", "reality"):
+                    if sni: p["sni"] = sni
+                    if fp: p["fp"] = fp
+                    if alpn: p["alpn"] = alpn
+                if sec == "reality":
+                    if real_s.get("publicKey"): p["pbk"] = real_s["publicKey"]
+                    if real_s.get("shortId"): p["sid"] = real_s["shortId"]
+                if net == "xhttp":
+                    if xh_s.get("path"): p["path"] = xh_s["path"]
+                    if xh_s.get("host"): p["host"] = xh_s["host"]
+                    if xh_s.get("mode"): p["mode"] = xh_s["mode"]
+                elif net == "ws":
+                    if ws_s.get("path"): p["path"] = ws_s["path"]
+                    host_hdr = (ws_s.get("headers") or {}).get("Host")
+                    if host_hdr: p["host"] = host_hdr
+                elif net == "grpc":
+                    if grpc_s.get("serviceName"): p["serviceName"] = grpc_s["serviceName"]
+                elif net == "tcp":
+                    if tcp_type: p["headerType"] = tcp_type
+                return p
+
+            targets = list(o.get("settings", {}).get("vnext") or [])
+            targets += list(o.get("settings", {}).get("servers") or [])
+            for v in targets:
+                addr, port = v.get("address"), v.get("port")
+                if not addr or not port:
+                    continue
+                if proto == "vless":
+                    for u in v.get("users") or []:
+                        uid = u.get("id")
+                        if not uid:
+                            continue
+                        q = common()
+                        q["encryption"] = u.get("encryption") or "none"
+                        if u.get("flow"):
+                            q["flow"] = u["flow"]
+                        add("vless://%s@%s:%s?%s%s" % (
+                            uid, addr, port, _enc_params(**q), frag))
+                elif proto == "trojan":
+                    pwd = v.get("password") or (v.get("users") or [{}])[0].get("password")
+                    if pwd:
+                        add("trojan://%s@%s:%s?%s%s" % (
+                            url_quote(pwd, safe=""), addr, port,
+                            _enc_params(**common()), frag))
+                elif proto == "vmess":
+                    for u in v.get("users") or []:
+                        uid = u.get("id")
+                        if not uid:
+                            continue
+                        q = common()
+                        vm = {
+                            "v": "2", "ps": remarks, "add": addr, "port": str(port),
+                            "id": uid, "aid": str(u.get("alterId", 0)),
+                            "net": net, "type": tcp_type,
+                            "host": q.get("host", ""), "path": q.get("path", ""),
+                            "tls": "tls" if sec in ("tls", "reality") else "",
+                            "sni": sni, "fp": fp,
+                            "scy": u.get("security", "auto"),
+                        }
+                        add("vmess://" + base64.b64encode(
+                            json.dumps(vm, ensure_ascii=False).encode()
+                        ).decode())
+    return uris
+
+
 def count_configs(text: str):
     """(живых конфигов, всего строк-конфигов). Заглушки не считаются живыми."""
     lines = [ln.strip() for ln in text.splitlines()]
@@ -377,6 +503,19 @@ def _classify_response(status: int, content: str):
     «Это ссылка для VPN-клиента».
     """
     alive, total = count_configs(content)
+
+    # v2ray JSON-конфиг (часть ссылок автора отдаёт его вместо base64-списка):
+    # конвертируем серверы в URI и отдаём как обычную подписку.
+    if not alive:
+        json_uris = v2ray_json_to_uris(content)
+        json_uris = [u for u in json_uris if not PLACEHOLDER_RE.search(u)]
+        if json_uris:
+            log("JSON-конфиг распознан: %d серверов -> конвертированы в URI" % len(json_uris))
+            return {"kind": "base64", "servers": len(json_uris), "http": status,
+                    "content": base64.b64encode(
+                        ("\n".join(json_uris) + "\n").encode()).decode(),
+                    "valid": True, "note": None}
+
     if alive > 0:
         if CONFIG_RE.search(content):
             return {"kind": "plain", "servers": alive, "http": status,
@@ -526,7 +665,7 @@ a{color:var(--acc)}
 <body>
 <main>
 <h1>Актуальная ссылка на VPN-подписку</h1>
-<p class="muted">Канал: <a href="https://t.me/s/__CHANNEL__">t.me/__CHANNEL__</a> · проверяется GitHub Actions каждый час</p>
+<p class="muted">Канал: <a href="https://t.me/s/__CHANNEL__">t.me/__CHANNEL__</a> · проверяется GitHub Actions 3 раза в час</p>
 
 <div class="card">
 __ALERT__
@@ -561,7 +700,7 @@ __HISTORY__
 </div>
 
 <div class="card muted small">
-<b>Как это работает.</b> Каждый час GitHub Actions открывает публичную страницу
+<b>Как это работает.</b> Каждые ~20 минут GitHub Actions открывает публичную страницу
 канала t.me/s/__CHANNEL__, находит в самом свежем посте секцию с подпиской
 (Incy | v2box | v2raytun), забирает ссылку оттуда, скачивает её и проверяет на
 живость. Ничего не запускается на твоём компьютере или телефоне.
