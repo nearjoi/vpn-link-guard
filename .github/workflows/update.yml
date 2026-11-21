@@ -51,7 +51,7 @@ jobs:
 
       - name: Install deps
         if: github.event_name != 'push' && github.event_name != 'dynamic'
-        run: pip install --quiet requests
+        run: pip install --quiet requests pycryptodome
 
       # Основной механизм: живём на раннере ~5 часов, опрашиваем канал каждые
       # 10 минут. В конце продлеваем цепочку новым запуском через API.

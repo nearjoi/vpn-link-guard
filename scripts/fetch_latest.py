@@ -307,6 +307,127 @@ def urls_from_section(text_block: str, marker_re) -> list:
     return urls
 
 
+# ------------------------------------------------- happ://crypt5 (скрытые ссылки)
+
+# Часть постов автора содержит, кроме открытой https-ссылки, зашифрованные
+# ссылки happ://crypt5/... (RSA + ChaCha20-Poly1305). Внутри — URL подписки,
+# которую приложение Happ получает напрямую. Расшифровываем их и добавляем
+# как резервных кандидатов: если открытую ссылку из поста уберут или она
+# испортится, парсер продолжит работать по скрытым.
+try:
+    from Crypto.Cipher import ChaCha20_Poly1305, PKCS1_v1_5
+    from Crypto.PublicKey import RSA
+    _KEYS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "crypt5_keys.json")
+    _CRYPT5_KEYS = {}
+    if os.path.exists(_KEYS_FILE):
+        with open(_KEYS_FILE, encoding="utf-8") as _f:
+            _CRYPT5_KEYS = {
+                m: RSA.import_key(base64.b64decode(v))
+                for m, v in json.load(_f).items()
+            }
+    _CRYPT5_CIPHERS = {m: PKCS1_v1_5.new(k) for m, k in _CRYPT5_KEYS.items()}
+except Exception as _e:  # библиотека может отсутствовать — crypt5 просто отключён
+    _CRYPT5_CIPHERS = {}
+    log_warn_init = _e
+
+CRYPT5_RE = re.compile(r"happ://crypt5/([A-Za-z0-9+/=]{8,})")
+
+
+def _c5_b64d(data: bytes) -> bytes:
+    s = data.decode("latin-1").replace("-", "+").replace("_", "/")
+    m = re.match(r"^[A-Za-z0-9+/]+={0,2}", s)
+    if not m:
+        raise ValueError("нет валидного base64")
+    return base64.b64decode(m.group(0))
+
+
+def _c5_swap_pairs(b: bytes) -> bytes:
+    r = bytearray(b)
+    for i in range(0, len(r) - 1, 2):
+        r[i], r[i + 1] = r[i + 1], r[i]
+    return bytes(r)
+
+
+def _c5_swap_blocks(b: bytes) -> bytes:
+    r = bytearray(b)
+    n = len(r) - len(r) % 4
+    for i in range(0, n, 4):
+        r[i], r[i + 2] = r[i + 2], r[i]
+        r[i + 1], r[i + 3] = r[i + 3], r[i + 1]
+    return bytes(r)
+
+
+def _c5_decrypt_body(body: bytes, marker: str, salted: bool) -> str:
+    nonce = body[:12]
+    salt, length_start = None, 12
+    if salted:
+        salt = body[14:22]
+        length_start = 22
+    length_end = length_start
+    while length_end < len(body) and 48 <= body[length_end] <= 57:
+        length_end += 1
+    if length_end == length_start:
+        raise ValueError("нет длины сегмента")
+    seg_len = int(body[length_start:length_end])
+    packed = body[length_end:]
+    if not packed or seg_len > len(packed) - 1:
+        raise ValueError("сегмент обрезан")
+    rsa_ct = _c5_b64d(packed[seg_len + 1:])
+    rsa_pt = _CRYPT5_CIPHERS[marker].decrypt(rsa_ct, None)
+    if rsa_pt is None:
+        raise ValueError("RSA не расшифровал")
+    key = bytearray(_c5_b64d(_c5_swap_pairs(rsa_pt)))
+    if len(key) != 32:
+        raise ValueError("ключ ChaCha не 32 байта")
+    if salt:
+        for i in range(len(key)):
+            key[i] ^= salt[i % len(salt)]
+    ct = _c5_b64d(packed[1:seg_len + 1])
+    pt = ChaCha20_Poly1305.new(key=bytes(key), nonce=nonce).decrypt(ct)
+    return _c5_b64d(_c5_swap_pairs(pt)).decode()
+
+
+def decrypt_crypt5(payload: str) -> str:
+    """Расшифровывает тело happ://crypt5/<payload> и возвращает URL подписки."""
+    shuffled = _c5_swap_blocks(payload.encode())
+    marker = shuffled[:4].decode("latin-1") + shuffled[-4:].decode("latin-1")
+    if marker not in _CRYPT5_CIPHERS:
+        raise ValueError("неизвестный маркер %r" % marker)
+    body = shuffled[4:-4]
+    prefer_salted = len(body) > 12 and not (48 <= body[12] <= 57)
+    last_err = None
+    for salted in (prefer_salted, not prefer_salted):
+        try:
+            return _c5_decrypt_body(body, marker, salted)
+        except Exception as e:
+            last_err = e
+    raise last_err
+
+
+def crypt5_urls(text_block: str) -> list:
+    """Достаёт из текста поста happ://crypt5-ссылки и расшифровывает их."""
+    out = []
+    if not _CRYPT5_CIPHERS:
+        return out
+    # блобы — сплошной base64 в тексте поста: убираем HTML-теги/сущности,
+    # иначе регулярка нарежет их на куски
+    plain = html_lib.unescape(re.sub(r"<[^>]+>", " ", text_block or ""))
+    payloads = CRYPT5_RE.findall(plain)
+    ok = 0
+    for payload in payloads:
+        try:
+            url = decrypt_crypt5(payload)
+            if url.lower().startswith(("http://", "https://")):
+                if url not in out:
+                    out.append(url)
+            ok += 1
+        except Exception:
+            pass  # старые/битые блобы в истории постов — норма, не шумим
+    if payloads:
+        log("crypt5: блобов %d, расшифровано %d, URL %d" % (len(payloads), ok, len(out)))
+    return out
+
+
 def build_candidates(messages: list, marker_re, include_re, exclude_re) -> list:
     """Кандидаты, отсортированные: свежие посты выше, первые ссылки в посте выше.
 
@@ -814,13 +935,23 @@ def main():
     log("Канал: t.me/%s ; страниц: %d ; маркер: %s"
         % (channel, max_pages, "да" if marker_re else "нет (первая ссылка поста)"))
 
-    # 1. читаем канал
+    # 0. состояние загружаем сразу: оно нужно и при сбое канала
+    state = load_state()
+    state["channel"] = channel
+    state["last_run_utc"] = now_utc()
+
+    # 1. читаем канал; при сбое t.me не падаем, а обновляем sub.txt
+    #    по сохранённой ссылке — это важнее, чем сканирование постов
     messages, seen_ids = [], set()
     before = None
     for page in range(max_pages):
         url = "https://t.me/s/%s" % channel + ("?before=%d" % before if before else "")
         status, body = http_get(url, timeout=25, retries=3)
         if status != 200:
+            if page == 0 and state.get("current"):
+                log("ПРЕДУПРЕЖДЕНИЕ: t.me вернул HTTP %s — обновляю только содержимое "
+                    "сохранённой ссылки (пост #%s)" % (status, state["current"].get("message_id")))
+                break
             fail("t.me вернул HTTP %s для t.me/s/%s. Проверь, что канал публичный и юзернейм верный."
                  % (status, channel))
         msgs = parse_messages(body, channel)
@@ -840,33 +971,46 @@ def main():
 
     log("Постов прочитано: %d" % len(messages))
 
-    # 2. кандидаты
+    # 2. кандидаты: открытые ссылки + расшифрованные happ://crypt5
     candidates = build_candidates(messages, marker_re, include_re, exclude_re)
-    log("Ссылок-кандидатов найдено: %d" % len(candidates))
-
-    state = load_state()
-    state["channel"] = channel
-    state["last_run_utc"] = now_utc()
+    n_plain = len(candidates)
+    for msg in sorted(messages, key=lambda m: -m["id"]):
+        for url in crypt5_urls(msg["text_block"]):
+            if not any(c["link"] == url for c in candidates):
+                candidates.append({
+                    "link": url,
+                    "msg_id": msg["id"],
+                    "msg_date": msg["date"],
+                    "pos": 99,  # crypt5 всегда после открытых ссылок того же поста
+                })
+    log("Ссылок-кандидатов найдено: %d (открытых %d, crypt5 %d)"
+        % (len(candidates), n_plain, len(candidates) - n_plain))
 
     if not candidates:
         marker_name = (os.environ.get("SUB_MARKER") or "Incy | v2box | v2raytun").strip() or "маркер"
         if state.get("current"):
-            log("В свежих постах нет секции с подпиской — сохраняем предыдущую ссылку.")
-            summary("Секция «%s» в последних %d постах не найдена. Текущая ссылка (пост #%s) остаётся актуальной."
+            log("В свежих постах нет секции с подпиской — обновляю содержимое сохранённой ссылки.")
+            summary("Секция «%s» в последних %d постах не найдена. Обновляю содержимое ссылки из поста #%s."
                     % (marker_name, len(messages), state["current"].get("message_id") or "?"))
-            save_state(state)
-            sys.exit(0)
-        fail("В последних %d постах канала не найдена секция «%s». Возможно, автор изменил формат "
-             "поста — пришли актуальный текст заголовка секции и поправь переменную SUB_MARKER."
-             % (len(messages), marker_name))
-
-    # 3. выбор текущей ссылки: свежий пост важнее старого
-    ordered = candidates
-    new_links = [c for c in ordered if c["link"] not in state["seen"]]
-    if new_links:
-        chosen, reason = new_links[0], "новая ссылка (пост #%d)" % new_links[0]["msg_id"]
+            chosen = {
+                "link": state["current"]["link"],
+                "msg_id": state["current"].get("message_id"),
+                "msg_date": state["current"].get("msg_date"),
+                "pos": 0,
+            }
+            reason = "сохранённая ссылка (новых в канале нет)"
+        else:
+            fail("В последних %d постах канала не найдена секция «%s». Возможно, автор изменил формат "
+                 "поста — пришли актуальный текст заголовка секции и поправь переменную SUB_MARKER."
+                 % (len(messages), marker_name))
     else:
-        chosen, reason = ordered[0], "самый свежий пост с ссылкой (#%d)" % ordered[0]["msg_id"]
+        # 3. выбор текущей ссылки: свежий пост важнее старого
+        ordered = candidates
+        new_links = [c for c in ordered if c["link"] not in state["seen"]]
+        if new_links:
+            chosen, reason = new_links[0], "новая ссылка (пост #%d)" % new_links[0]["msg_id"]
+        else:
+            chosen, reason = ordered[0], "самый свежий пост с ссылкой (#%d)" % ordered[0]["msg_id"]
     log("Выбрана ссылка: %s" % chosen["link"])
     log("Причина: %s" % reason)
 
@@ -878,6 +1022,19 @@ def main():
     else:
         info = {"kind": "config", "servers": None, "http": 0, "valid": True,
                 "content": chosen["link"], "note": None}
+
+    # Защита от «плохих окон» бэкенда автора: в такие моменты сервер отдаёт
+    # урезанный конфиг из 1-2 серверов (ротация/лимит). Перезаписывать полный
+    # список такой заглушкой нельзя — ждём следующей итерации.
+    cur_servers = (state.get("current") or {}).get("servers") or 0
+    if (info.get("valid") and info.get("servers") and cur_servers >= 10
+            and info["servers"] < max(5, cur_servers // 3)):
+        log("ПРЕДУПРЕЖДЕНИЕ: в ответе только %d серверов вместо %d — деградация "
+            "ответа бэкенда, sub.txt оставлен прежним" % (info["servers"], cur_servers))
+        info = dict(info, valid=False, content=None,
+                    note="Ответ деградировал (%d серверов вместо %d) — похоже на временную "
+                         "заглушку; sub.txt сохранён прежним, повторим на следующей проверке"
+                         % (info["servers"], cur_servers))
 
     sub_content = build_sub_txt(chosen, info, state, candidates)
     if sub_content is not None:
