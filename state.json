@@ -1,20 +1,27 @@
 {
   "channel": "Happ_VPN_official",
   "current": {
-    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTIzMTUyMAto0DeXMNnf/auto",
-    "message_id": 4490,
-    "msg_date": "2026-11-21T03:33:24+00:00",
-    "became_current_utc": "2026-11-21T10:18:08Z",
+    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUyODA3MzgQvKJrxUMCq/auto",
+    "message_id": 4491,
+    "msg_date": "2026-11-21T17:09:34+00:00",
+    "became_current_utc": "2026-11-21T17:43:34Z",
     "kind": "base64",
-    "servers": 120,
+    "servers": 160,
     "http_status": 200,
     "note": null,
     "extra_links": [
-      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTIzMTUyMAto0DeXMNnf/auto"
+      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUyODA3MzgQvKJrxUMCq/auto"
     ],
-    "checked_utc": "2026-11-21T10:18:08Z"
+    "checked_utc": "2026-11-21T17:43:34Z"
   },
   "history": [
+    {
+      "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTIzMTUyMAto0DeXMNnf/auto",
+      "message_id": 4490,
+      "msg_date": "2026-11-21T03:33:24+00:00",
+      "since_utc": "2026-11-21T10:18:08Z",
+      "servers": 120
+    },
     {
       "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpaSwxNzk1MTgzNzAy3RSrrf0NZ2",
       "message_id": 4489,
@@ -122,7 +129,11 @@
     "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTIzMTUyMAto0DeXMNnf/auto": {
       "message_id": 4490,
       "first_seen_utc": "2026-11-21T10:18:08Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUyODA3MzgQvKJrxUMCq/auto": {
+      "message_id": 4491,
+      "first_seen_utc": "2026-11-21T17:43:34Z"
     }
   },
-  "last_run_utc": "2026-11-21T10:18:07Z"
+  "last_run_utc": "2026-11-21T17:43:33Z"
 }
