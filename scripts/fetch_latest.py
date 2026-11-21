@@ -665,7 +665,7 @@ a{color:var(--acc)}
 <body>
 <main>
 <h1>Актуальная ссылка на VPN-подписку</h1>
-<p class="muted">Канал: <a href="https://t.me/s/__CHANNEL__">t.me/__CHANNEL__</a> · проверяется GitHub Actions 3 раза в час</p>
+<p class="muted">Канал: <a href="https://t.me/s/__CHANNEL__">t.me/__CHANNEL__</a> · проверяется GitHub Actions каждые ~10 минут</p>
 
 <div class="card">
 __ALERT__
@@ -700,7 +700,7 @@ __HISTORY__
 </div>
 
 <div class="card muted small">
-<b>Как это работает.</b> Каждые ~20 минут GitHub Actions открывает публичную страницу
+<b>Как это работает.</b> Каждые ~10 минут GitHub Actions открывает публичную страницу
 канала t.me/s/__CHANNEL__, находит в самом свежем посте секцию с подпиской
 (Incy | v2box | v2raytun), забирает ссылку оттуда, скачивает её и проверяет на
 живость. Ничего не запускается на твоём компьютере или телефоне.

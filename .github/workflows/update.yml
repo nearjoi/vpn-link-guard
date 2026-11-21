@@ -2,9 +2,12 @@ name: Update VPN subscription
 
 on:
   schedule:
-    # 3 раза в час на «непиковых» минутах (cron ровно в :00 GitHub часто
-    # пропускает под нагрузкой; сдвиг на случайную минуту надёжнее).
-    - cron: '7,29,51 * * * *'
+    # Спасательный круг: GitHub сильно прореживает плановые запуски, поэтому
+    # частота здесь не важна. Каждый запуск поднимает НОВЫЙ ~5-часовой цикл
+    # опроса канала (см. шаг Poll), а цикл в конце продлевает сам себя через
+    # workflow_dispatch — так обновления идут каждые ~10 минут независимо
+    # от ненадёжного шедулера.
+    - cron: '13,47 * * * *'
   workflow_dispatch:
     inputs:
       channel:
@@ -14,21 +17,25 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
-  group: update-vpn-sub
-  cancel-in-progress: false
+  # Единая группа для циклов: новый запуск (расписание / dispatch) заменяет
+  # предыдущий цикл. Отдельная группа у commit-спровоцированных запусков,
+  # чтобы они не отменяли основной цикл.
+  group: ${{ github.event_name == 'push' || github.event_name == 'dynamic' && 'commit-followup' || 'update-loop' }}
+  cancel-in-progress: true
 
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 330
 
     # Важно: workflow сознательно НЕ использует actions/uses (actions/checkout и т.п.).
     # GitHub периодически блокирует сторонние экшены, и тогда ран падает с
     # "Repository access blocked" ещё до запуска. Чистые run-шаги от этого не зависят.
     steps:
-      - name: Clone repository (вместо actions/checkout)
+      - name: Clone repository
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -36,40 +43,47 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      # python3 предустановлен на ubuntu-runner'е, ставим только requests
+      # Коммит бота может спровоцировать автоматический ("dynamic") запуск
+      # этого же workflow. Для него делать нечего: основной цикл уже работает.
+      - name: Skip commit-triggered runs
+        if: github.event_name == 'push' || github.event_name == 'dynamic'
+        run: echo "Запуск инициирован коммитом — обновление уже выполняет основной цикл. Выход."
+
       - name: Install deps
+        if: github.event_name != 'push' && github.event_name != 'dynamic'
         run: pip install --quiet requests
 
-      - name: Fetch latest VPN link from Telegram
+      # Основной механизм: живём на раннере ~5 часов, опрашиваем канал каждые
+      # 10 минут. В конце продлеваем цепочку новым запуском через API.
+      - name: Poll channel every 10 min (~5 hours)
+        if: github.event_name != 'push' && github.event_name != 'dynamic'
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TG_CHANNEL: ${{ github.event.inputs.channel || vars.TG_CHANNEL }}
           SUB_MARKER: ${{ vars.SUB_MARKER }}
           MAX_PAGES: ${{ vars.MAX_PAGES }}
           INCLUDE_PATTERN: ${{ vars.INCLUDE_PATTERN }}
           EXCLUDE_PATTERN: ${{ vars.EXCLUDE_PATTERN }}
-        run: python3 scripts/fetch_latest.py
-
-      - name: Commit and push if changed
         run: |
-          git add -A
-          if git diff --cached --quiet; then
-            echo "Изменений нет — коммит не нужен"
-          else
-            git commit -m "chore: обновление VPN-ссылки (авто)"
-            git push
-          fi
-
-      # GitHub отключает расписания через 60 дней неактивности репозитория.
-      # Аналог keepalive-workflow без внешнего экшена: раз в ~50 дней пустой коммит.
-      - name: Keepalive
-        run: |
-          last=$(git log -1 --format=%ct)
-          now=$(date +%s)
-          age=$(( (now - last) / 86400 ))
-          if [ "$age" -ge 50 ]; then
-            git commit --allow-empty -m "chore: keepalive — защита расписания от автоотключения"
-            git push
-            echo "Пустой keepalive-коммит сделан (репозиторий молчал ${age} дней)"
-          else
-            echo "Последний коммит ${age} дн. назад — keepalive не нужен"
-          fi
+          for i in $(seq 1 28); do
+            echo "=== Итерация $i/28 ($(date -u +'%Y-%m-%d %H:%M:%S') UTC) ==="
+            python3 scripts/fetch_latest.py || echo "Итерация упала — продолжаем цикл"
+            git add -A
+            CHANGED=$(git diff --cached --name-only | grep -Ev '^state\.json$' || true)
+            if [ -n "$CHANGED" ]; then
+              git commit -m "chore: обновление VPN-ссылки (авто, итерация $i)"
+              git push || echo "push не прошёл — повторим на следующей итерации"
+            else
+              git reset -q
+              echo "Контент не изменился — коммит не нужен"
+            fi
+            if [ "$i" -lt 28 ]; then sleep 600; fi
+          done
+          # Цепочка: продлеваем цикл новым запуском (расписание GitHub ненадёжно).
+          curl -sf -X POST \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/update.yml/dispatches" \
+            -d '{"ref":"main"}' \
+            && echo "Следующий 5-часовой цикл запущен (самопродление OK)" \
+            || echo "ВНИМАНИЕ: самопродление не удалось — цикл перезапустит расписание"
