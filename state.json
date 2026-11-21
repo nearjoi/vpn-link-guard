@@ -1,20 +1,29 @@
 {
   "channel": "Happ_VPN_official",
   "current": {
-    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUyODA3MzgQvKJrxUMCq/auto",
+    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk1MjgwODM2bivExOeLIH/auto",
     "message_id": 4491,
     "msg_date": "2026-11-21T17:09:34+00:00",
-    "became_current_utc": "2026-11-21T17:43:34Z",
+    "became_current_utc": "2026-11-21T22:37:22Z",
     "kind": "base64",
-    "servers": 194,
+    "servers": 130,
     "http_status": 200,
     "note": null,
     "extra_links": [
-      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUyODA3MzgQvKJrxUMCq/auto"
+      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUyODA3MzgQvKJrxUMCq/auto",
+      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk1MjgwODM2bivExOeLIH/auto",
+      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FcnV1dSwxNzk1MjgwNzc4TCimqBkeKK/auto"
     ],
-    "checked_utc": "2026-11-21T22:36:27Z"
+    "checked_utc": "2026-11-21T22:37:22Z"
   },
   "history": [
+    {
+      "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUyODA3MzgQvKJrxUMCq/auto",
+      "message_id": 4491,
+      "msg_date": "2026-11-21T17:09:34+00:00",
+      "since_utc": "2026-11-21T17:43:34Z",
+      "servers": 194
+    },
     {
       "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTIzMTUyMAto0DeXMNnf/auto",
       "message_id": 4490,
@@ -133,7 +142,247 @@
     "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUyODA3MzgQvKJrxUMCq/auto": {
       "message_id": 4491,
       "first_seen_utc": "2026-11-21T22:36:27Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk1MjgwODM2bivExOeLIH/auto": {
+      "message_id": 4491,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FcnV1dSwxNzk1MjgwNzc4TCimqBkeKK/auto": {
+      "message_id": 4491,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tLDE3OTUyMzE3MTkfpFzdQ7T0u/auto": {
+      "message_id": 4490,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk1MTY4NTg0axX-jrw6qq/auto": {
+      "message_id": 4487,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FcnV1LDE3OTUxNjg1MTEwiw3p9sE2m/auto": {
+      "message_id": 4487,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tLDE3OTUxMTE5ODkp9ecmjVHaB/auto": {
+      "message_id": 4486,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FcnV1dSwxNzk1MTExODg15PVju1_ff9/auto": {
+      "message_id": 4486,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://walide.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk1MDk1NjUxxnf20mayNM/auto": {
+      "message_id": 4485,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FcnV1dSwxNzk1MDk1NTk4V4enOaxXMb/auto": {
+      "message_id": 4485,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk1MDY3MDk02YbQscIAxz/auto": {
+      "message_id": 4484,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FcnV1dSwxNzk1MDY3MDU19V_eVZOsBF/auto": {
+      "message_id": 4484,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tLDE3OTUwMzMzNTY6eXSO6js8l/auto": {
+      "message_id": 4483,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FcnV1LDE3OTUwMzMzMDYkBHC8l_cRT/auto": {
+      "message_id": 4483,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://walide.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk1MDI0OTY2-b5k0PdAve/auto": {
+      "message_id": 4481,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://walide.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FcnV1dSwxNzk1MDAzMjk24qlzY2OrMn/auto": {
+      "message_id": 4481,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NTAwOTE3Ngvh2wKzJcYb/auto": {
+      "message_id": 4480,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NTAwMzM3OAOJKC-G3zSm/auto": {
+      "message_id": 4479,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FUnV1LDE3OTQ5MTIwOTUrm9vYazPse/auto": {
+      "message_id": 4478,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NDkyOTA3NwRdUr58DTCM/auto": {
+      "message_id": 4475,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://walide.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FVE1NLDE3OTQ5MTIwOTUywIDvx3NnA/auto": {
+      "message_id": 4474,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0ODk3MTI3vf8JIYxONM/auto": {
+      "message_id": 4472,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://walide.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FcnV1dXV1dSwxNzk0ODU0ODcyNUKCHAAjj1/auto": {
+      "message_id": 4472,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW1tbW0sMTc5NDg1MzI1OAVa1ODWUQV9/auto": {
+      "message_id": 4471,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FcnV1dXV1dSwxNzk0Nzk4MDky2HMNmIhFBx/auto": {
+      "message_id": 4470,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NDg0MzE0NAWz5eOqxHlk/auto": {
+      "message_id": 4469,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0ODIzNDIy6nZ6QMnLTQ/auto": {
+      "message_id": 4468,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://walide.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NDc5ODE4MQIHcWwbCRJ8/auto": {
+      "message_id": 4467,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW1tbSwxNzk0NzU0ODk0Ai_vLFwof8/auto": {
+      "message_id": 4466,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FcnV1dSwxNzk0NTQ5MzQxlqu6Apb1Zn/auto": {
+      "message_id": 4466,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0NzI2MzE43aU7QHJpcS/auto": {
+      "message_id": 4465,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NDY1ODUzMQIZV9s3ELAm/auto": {
+      "message_id": 4464,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NDY1Mzk5NgZW3uFWBw3X/auto": {
+      "message_id": 4463,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0NjUyMTE1OTcOnF5TGY/auto": {
+      "message_id": 4462,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tLDE3OTQ2NDc2NTQ90xA0XrFPi/auto": {
+      "message_id": 4461,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW1tLDE3OTQ1ODk3NjQ1Aq-2qS1Rs/auto": {
+      "message_id": 4460,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0NTcwMTI1KmhZQ2yiuK/auto": {
+      "message_id": 4458,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0NTQ5Mjg0Ol1gTW_D-h/auto": {
+      "message_id": 4457,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tLDE3OTQ1MDc4NjAHEUPMlcm8V/auto": {
+      "message_id": 4455,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FQmJicnUsMTc5NDM5NzY4Mgo_2MRnX1cu/auto": {
+      "message_id": 4455,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0NDkxMjM3M6GjbiU1Aa/auto": {
+      "message_id": 4454,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0NDgwNzI06Dzbrxu2YJ/auto": {
+      "message_id": 4453,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NDQ2OTQ0NAlI4-Nu30ky/auto": {
+      "message_id": 4452,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://gena-bukin.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0Mzc3NDAwiXHPdGIIzI/auto": {
+      "message_id": 4450,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://walide.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FQmJicnUsMTc5NDI2MDc0MgWJTDdS6NKW/auto": {
+      "message_id": 4449,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://gena-bukin.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NDMzMjEzNwpqCsSHDf6X/auto": {
+      "message_id": 4448,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://walide.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NDMxNzY2MgYLKsPmRET8/auto": {
+      "message_id": 4447,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NDMxMjg3OATP9lDJHdY6/auto": {
+      "message_id": 4446,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0Mjk0NDYxLudP1Px_Wf/auto": {
+      "message_id": 4445,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0MjQzOTU1r2Ja_GaaVG/auto": {
+      "message_id": 4444,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NDIyNjcxMw7Oe5nKM3Ei/auto": {
+      "message_id": 4443,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://walide.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tLDE3OTQyMDQ4NTEzo1hTPaJ_x/auto": {
+      "message_id": 4441,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW1tbSwxNzk0MTU3MTQ5lUyKz_sXIr/auto": {
+      "message_id": 4440,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0MTQ0MjkxmlbrJbqT2q/auto": {
+      "message_id": 4439,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW0sMTc5NDEyNTk5MQwXaobTIzzt/auto": {
+      "message_id": 4438,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://happivpn.nenadoblokirowatgnidda.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FTkZRY2hxLDE3OTQwMTkzNzIQq8u1qIHDq/auto": {
+      "message_id": 4437,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbW1tLDE3OTQwNzQzNDYrYii5bNyHu/auto": {
+      "message_id": 4436,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0MDYzMDEyesfh7QoTVn/auto": {
+      "message_id": 4435,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FdG1tbSwxNzk0MDUzNDA3Kem7VruClG/auto": {
+      "message_id": 4434,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FemhnRTYwLDE3OTQwNDg3MjQqXbim91Fhq/auto": {
+      "message_id": 4433,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
+    },
+    "https://kwartirant.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2FVG1qLDE3OTQwMzczMDMrIYZ0KhjGL": {
+      "message_id": 4430,
+      "first_seen_utc": "2026-11-21T22:37:22Z"
     }
   },
-  "last_run_utc": "2026-11-21T22:36:25Z"
+  "last_run_utc": "2026-11-21T22:37:14Z"
 }
