@@ -1,20 +1,27 @@
 {
   "channel": "Happ_VPN_official",
   "current": {
-    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpaSwxNzk1MTgzNzAy3RSrrf0NZ2",
-    "message_id": 4489,
-    "msg_date": "2026-11-20T19:35:45+00:00",
-    "became_current_utc": "2026-11-20T21:28:50Z",
+    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTIzMTUyMAto0DeXMNnf/auto",
+    "message_id": 4490,
+    "msg_date": "2026-11-21T03:33:24+00:00",
+    "became_current_utc": "2026-11-21T10:18:08Z",
     "kind": "base64",
-    "servers": 96,
+    "servers": 120,
     "http_status": 200,
     "note": null,
     "extra_links": [
-      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpaSwxNzk1MTgzNzAy3RSrrf0NZ2"
+      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTIzMTUyMAto0DeXMNnf/auto"
     ],
-    "checked_utc": "2026-11-21T02:45:41Z"
+    "checked_utc": "2026-11-21T10:18:08Z"
   },
   "history": [
+    {
+      "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpaSwxNzk1MTgzNzAy3RSrrf0NZ2",
+      "message_id": 4489,
+      "msg_date": "2026-11-20T19:35:45+00:00",
+      "since_utc": "2026-11-20T21:28:50Z",
+      "servers": 96
+    },
     {
       "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTE2ODY2MAhH4Uzk-EYA/auto",
       "message_id": 4487,
@@ -111,7 +118,11 @@
     "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpaSwxNzk1MTgzNzAy3RSrrf0NZ2": {
       "message_id": 4489,
       "first_seen_utc": "2026-11-21T02:45:41Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTIzMTUyMAto0DeXMNnf/auto": {
+      "message_id": 4490,
+      "first_seen_utc": "2026-11-21T10:18:08Z"
     }
   },
-  "last_run_utc": "2026-11-21T02:45:40Z"
+  "last_run_utc": "2026-11-21T10:18:07Z"
 }
