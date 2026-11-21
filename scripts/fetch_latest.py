@@ -1004,8 +1004,10 @@ def main():
                  "поста — пришли актуальный текст заголовка секции и поправь переменную SUB_MARKER."
                  % (len(messages), marker_name))
     else:
-        # 3. выбор текущей ссылки: свежий пост важнее старого
-        ordered = candidates
+        # 3. выбор текущей ссылки: свежий пост важнее старого.
+        # crypt5-ссылки (pos=99) — ТОЛЬКО резерв: их списки серверов у автора
+        # уже открытой ссылки, поэтому в обычной ситуации выбираем открытую.
+        ordered = [c for c in candidates if c.get("pos") != 99] or candidates
         new_links = [c for c in ordered if c["link"] not in state["seen"]]
         if new_links:
             chosen, reason = new_links[0], "новая ссылка (пост #%d)" % new_links[0]["msg_id"]
