@@ -5,14 +5,14 @@
     "message_id": 4492,
     "msg_date": "2026-11-22T07:38:32+00:00",
     "became_current_utc": "2026-11-22T07:49:13Z",
-    "kind": "base64",
-    "servers": 152,
-    "http_status": 200,
-    "note": null,
+    "kind": "none",
+    "servers": null,
+    "http_status": 404,
+    "note": "Ссылка не отвечает (HTTP 404) — похоже, она уже недействительна",
     "extra_links": [
       "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUzMzI4NzM8fTOUQd2Oa/auto"
     ],
-    "checked_utc": "2026-11-22T14:28:58Z"
+    "checked_utc": "2026-11-22T14:39:16Z"
   },
   "history": [
     {
@@ -397,8 +397,8 @@
     },
     "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUzMzI4NzM8fTOUQd2Oa/auto": {
       "message_id": 4492,
-      "first_seen_utc": "2026-11-22T14:28:58Z"
+      "first_seen_utc": "2026-11-22T14:39:16Z"
     }
   },
-  "last_run_utc": "2026-11-22T14:28:50Z"
+  "last_run_utc": "2026-11-22T14:39:02Z"
 }
