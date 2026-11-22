@@ -6,13 +6,13 @@
     "msg_date": "2026-11-22T07:38:32+00:00",
     "became_current_utc": "2026-11-22T07:49:13Z",
     "kind": "base64",
-    "servers": 180,
+    "servers": 164,
     "http_status": 200,
     "note": null,
     "extra_links": [
       "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUzMzI4NzM8fTOUQd2Oa/auto"
     ],
-    "checked_utc": "2026-11-22T08:40:08Z"
+    "checked_utc": "2026-11-22T08:50:19Z"
   },
   "history": [
     {
@@ -397,8 +397,8 @@
     },
     "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUzMzI4NzM8fTOUQd2Oa/auto": {
       "message_id": 4492,
-      "first_seen_utc": "2026-11-22T08:40:08Z"
+      "first_seen_utc": "2026-11-22T08:50:19Z"
     }
   },
-  "last_run_utc": "2026-11-22T08:40:00Z"
+  "last_run_utc": "2026-11-22T08:50:12Z"
 }
