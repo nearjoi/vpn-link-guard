@@ -1,20 +1,27 @@
 {
   "channel": "Happ_VPN_official",
   "current": {
-    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUzNTgxNzQQFNmHIlgN5/auto",
-    "message_id": 4493,
-    "msg_date": "2026-11-22T14:41:37+00:00",
-    "became_current_utc": "2026-11-22T14:49:29Z",
-    "kind": "none",
-    "servers": null,
-    "http_status": 404,
-    "note": "Ссылка не отвечает (HTTP 404) — похоже, она уже недействительна",
+    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpaSwxNzk1NDA1Mzc5wnI829nl9a/auto",
+    "message_id": 4495,
+    "msg_date": "2026-11-23T07:28:20+00:00",
+    "became_current_utc": "2026-11-23T07:32:02Z",
+    "kind": "base64",
+    "servers": 180,
+    "http_status": 200,
+    "note": null,
     "extra_links": [
-      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUzNTgxNzQQFNmHIlgN5/auto"
+      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpaSwxNzk1NDA1Mzc5wnI829nl9a/auto"
     ],
-    "checked_utc": "2026-11-23T07:21:52Z"
+    "checked_utc": "2026-11-23T07:32:02Z"
   },
   "history": [
+    {
+      "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUzNTgxNzQQFNmHIlgN5/auto",
+      "message_id": 4493,
+      "msg_date": "2026-11-22T14:41:37+00:00",
+      "since_utc": "2026-11-22T14:49:29Z",
+      "servers": null
+    },
     {
       "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUzMzI4NzM8fTOUQd2Oa/auto",
       "message_id": 4492,
@@ -409,7 +416,11 @@
     "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTUzNTgxNzQQFNmHIlgN5/auto": {
       "message_id": 4493,
       "first_seen_utc": "2026-11-23T07:21:52Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpaSwxNzk1NDA1Mzc5wnI829nl9a/auto": {
+      "message_id": 4495,
+      "first_seen_utc": "2026-11-23T07:32:02Z"
     }
   },
-  "last_run_utc": "2026-11-23T07:21:42Z"
+  "last_run_utc": "2026-11-23T07:31:55Z"
 }
