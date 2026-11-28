@@ -1,20 +1,27 @@
 {
   "channel": "Happ_VPN_official",
   "current": {
-    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTU4NDUxNTAHGS37P29NM/auto",
-    "message_id": 4515,
-    "msg_date": "2026-11-28T05:55:40+00:00",
-    "became_current_utc": "2026-11-28T06:01:32Z",
-    "kind": "none",
-    "servers": null,
-    "http_status": 404,
-    "note": "Ссылка не отвечает (HTTP 404) — похоже, она уже недействительна",
+    "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTg1OTExMwHiJ_0bDfEc/auto",
+    "message_id": 4516,
+    "msg_date": "2026-11-28T09:49:03+00:00",
+    "became_current_utc": "2026-11-28T09:55:45Z",
+    "kind": "base64",
+    "servers": 172,
+    "http_status": 200,
+    "note": null,
     "extra_links": [
-      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTU4NDUxNTAHGS37P29NM/auto"
+      "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTg1OTExMwHiJ_0bDfEc/auto"
     ],
-    "checked_utc": "2026-11-28T09:45:36Z"
+    "checked_utc": "2026-11-28T09:55:45Z"
   },
   "history": [
+    {
+      "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTU4NDUxNTAHGS37P29NM/auto",
+      "message_id": 4515,
+      "msg_date": "2026-11-28T05:55:40+00:00",
+      "since_utc": "2026-11-28T06:01:32Z",
+      "servers": null
+    },
     {
       "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTU3OTM2OTQLIsEXpGCEq/auto",
       "message_id": 4514,
@@ -112,13 +119,6 @@
       "msg_date": "2026-11-21T03:33:24+00:00",
       "since_utc": "2026-11-21T10:18:08Z",
       "servers": 120
-    },
-    {
-      "link": "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpaSwxNzk1MTgzNzAy3RSrrf0NZ2",
-      "message_id": 4489,
-      "msg_date": "2026-11-20T19:35:45+00:00",
-      "since_utc": "2026-11-20T21:28:50Z",
-      "servers": 96
     }
   ],
   "seen": {
@@ -473,7 +473,11 @@
     "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGlpLDE3OTU4NDUxNTAHGS37P29NM/auto": {
       "message_id": 4515,
       "first_seen_utc": "2026-11-28T09:45:36Z"
+    },
+    "https://doroguuuuu.ru/exec?url=http%3A%2F%2F144.31.5.17%3A5051%2Fecnnqn%2Fsub%2Fb2JzaGksMTc5NTg1OTExMwHiJ_0bDfEc/auto": {
+      "message_id": 4516,
+      "first_seen_utc": "2026-11-28T09:55:45Z"
     }
   },
-  "last_run_utc": "2026-11-28T09:45:25Z"
+  "last_run_utc": "2026-11-28T09:55:39Z"
 }
